@@ -15,6 +15,7 @@ def get_data(tick_id: str,
              end_dt: datetime.date,
              html_parser="html.parser"):
 
+    session = requests.Session()
     page = 1
     while True:
         params = {
@@ -29,7 +30,7 @@ def get_data(tick_id: str,
             "p": page
         }
         logger.info(page_url + "?" + urlencode(params))
-        resp = requests.get(page_url, params=params)
+        resp = session.get(page_url, params=params)
         if not resp.ok:
             break
         html_soup = bs4.BeautifulSoup(resp.text, html_parser)
